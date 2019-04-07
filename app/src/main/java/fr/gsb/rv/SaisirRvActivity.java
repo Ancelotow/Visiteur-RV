@@ -12,9 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,6 +39,7 @@ import java.util.List;
 import fr.gsb.rv.entites.Motif;
 import fr.gsb.rv.entites.Praticien;
 import fr.gsb.rv.entites.Visiteur;
+import fr.gsb.rv.modeles.ModeleGsb;
 import fr.gsb.rv.technique.Session;
 
 public class SaisirRvActivity extends AppCompatActivity{
@@ -45,10 +48,14 @@ public class SaisirRvActivity extends AppCompatActivity{
     Spinner lvPraticiens ;
     protected List<Motif> motifs = new ArrayList<Motif>() ;
     Spinner lvMotif ;
+    protected List<Integer> coefs = new ArrayList<Integer>();
+    Spinner lvCoef;
     Button btnRetour;
+    Button btnCancel;
     Button btnDate;
     TextView tvDate;
     DatePickerDialog dialogDate;
+    EditText edBilan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +63,12 @@ public class SaisirRvActivity extends AppCompatActivity{
         setContentView(R.layout.activity_saisirrv);
         lvPraticiens = (Spinner) findViewById( R.id.lvPraticiens) ;
         lvMotif = (Spinner) findViewById( R.id.lvMotifs) ;
+        lvCoef = (Spinner) findViewById( R.id.lvConf) ;
         tvDate = (TextView) findViewById(R.id.tvDate);
         btnRetour = (Button) findViewById(R.id.btnRetour);
+        btnCancel = (Button) findViewById(R.id.btnCancel);
         btnDate = (Button) findViewById(R.id.btnDate);
+        edBilan = (EditText) findViewById(R.id.edBilan);
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,13 +105,29 @@ public class SaisirRvActivity extends AppCompatActivity{
                 startActivity(intentionEnvoyer);
             }
         };
+        View.OnClickListener annuler = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edBilan.setText("");
+                tvDate.setText("");
+                Toast.makeText(SaisirRvActivity.this, "Ce rapport de visite n'as pas été enregistré.", Toast.LENGTH_LONG).show();
+            }
+        };
         btnRetour.setOnClickListener(quitter);
+        btnCancel.setOnClickListener(annuler);
         showPraticiens();
         showMotifs();
+        int coef = 1;
+        while(coef <= 5){
+            coefs.add(coef);
+            coef = coef + 1;
+        }
+        ArrayAdapter<Integer> aaCoef = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, coefs );
+        lvCoef.setAdapter(aaCoef);
     }
 
     protected void showPraticiens(){
-            String url = "http://192.168.43.114:5000/praticiens"; //URL HTTP
+            String url = ModeleGsb.URL+"praticiens"; //URL HTTP
             Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
@@ -165,7 +191,7 @@ public class SaisirRvActivity extends AppCompatActivity{
 
 
     protected void showMotifs(){
-        String url = "http://192.168.43.114:5000/motifs"; //URL HTTP
+        String url = ModeleGsb.URL+"motifs"; //URL HTTP
         Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {

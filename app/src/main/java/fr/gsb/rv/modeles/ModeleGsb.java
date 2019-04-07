@@ -7,7 +7,7 @@ import fr.gsb.rv.entites.Visiteur;
 public class ModeleGsb {
 
     private static ModeleGsb modele = null ;
-
+    public static final String URL = "http://192.168.1.18:5000/";
     private List<Visiteur> lesVisiteurs = new ArrayList<Visiteur>() ;
 
     private ModeleGsb(){

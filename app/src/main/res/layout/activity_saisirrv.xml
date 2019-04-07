@@ -17,9 +17,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:text="Date de visite : "
-                android:textSize="15dp"
-                android:layout_marginLeft="20dp"/>
+                android:textColor="@color/dark"
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -40,11 +41,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/praticien"
-            android:textSize="15dp"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/praticien"
+            android:textColor="@color/dark"
+            android:textSize="15dp" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -56,11 +58,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/motif"
-            android:textSize="15dp"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/motif"
+            android:textColor="@color/dark"
+            android:textSize="15dp" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -72,29 +75,77 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bilan :"
-            android:textSize="15dp"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Bilan :"
+            android:textColor="@color/dark"
+            android:textSize="15dp" />
 
         <EditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/textarea_style"
+            android:id="@+id/edBilan"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Coefficient de confiance :"
+            android:textColor="@color/dark"
+            android:textSize="15dp" />
+
+        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/table_body"
-            android:id="@+id/edBilan"/>
+            android:id="@+id/lvConf"/>
 
-        <Button
-            android:id="@+id/btnRetour"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:background="@color/retour"
-            android:text="@string/retour" />
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/success"
+                android:text="@string/valid"
+                android:layout_gravity="bottom"
+                android:id="@+id/btnValid"/>
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/danger"
+                android:text="@string/cancel"
+                android:textColor="@color/light"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="bottom"
+                android:id="@+id/btnCancel"/>
+
+            <Button
+                android:id="@+id/btnRetour"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/retour"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="bottom"
+                android:text="@string/retour" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

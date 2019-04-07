@@ -44,6 +44,7 @@ import fr.gsb.rv.entites.Mois;
 import fr.gsb.rv.entites.Motif;
 import fr.gsb.rv.entites.Praticien;
 import fr.gsb.rv.entites.RapportVisite;
+import fr.gsb.rv.modeles.ModeleGsb;
 import fr.gsb.rv.technique.Session;
 
 public class ConsultRvActivity extends AppCompatActivity{
@@ -124,7 +125,7 @@ public class ConsultRvActivity extends AppCompatActivity{
 
     protected void showRv(int mois, int annee){
         lesRvs.clear();
-        String url = "http://192.168.43.114:5000/rapports/"+Session.getSession().getLeVisiteur().getMatricule()+"/"+mois+"/"+annee; //URL HTTP
+        String url = ModeleGsb.URL+"rapports/"+Session.getSession().getLeVisiteur().getMatricule()+"/"+mois+"/"+annee; //URL HTTP
         System.out.println(url);
         Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>() {
             @Override
