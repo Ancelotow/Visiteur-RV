@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="success">#98FB98</color>
+    <color name="danger">#C01000</color>
+    <color name="error">#FF0000</color>
+    <color name="light">#FFFFFF</color>
+    <color name="dark">#000000</color>
+    <color name="cyan">#48D1CC</color>
+    <color name="retour">#4682B4</color>
+    <color name="gsb">#008080</color>
+</resources>

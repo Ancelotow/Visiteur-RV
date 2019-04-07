@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">RV-Visiteur</string>
+    <string name="matricul">Matricule : </string>
+    <string name="pass">Mot de pasee : </string>
+    <string name="valid">Valider</string>
+    <string name="cancel">Annuler</string>
+
+    <string name="consulter_rv">Consulter un rapport visite</string>
+    <string name="saisir_rv">Saisir un rapport visite</string>
+    <string name="logout">Déconnexion</string>
+
+    <string name="show_rv">Afficher la liste des rapports</string>
+    <string name="mois">Mois :</string>
+    <string name="annee">Année :</string>
+    <string name="retour">Retour</string>
+
+    <string name="praticien">Praticiens :</string>
+    <string name="motif">Motifs :</string>
+</resources>
