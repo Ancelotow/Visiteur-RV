@@ -10,14 +10,13 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoadActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".LoadActivity" android:theme="@style/AppNoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" android:label="Authentification"/>
         <activity android:name=".MenuRvActivity"/>
         <activity android:name=".ConsultRvActivity" android:label="Consulter un rapport de visite"/>
         <activity android:name=".SaisirRvActivity" android:label="Saisir un rapport de visite"/>
