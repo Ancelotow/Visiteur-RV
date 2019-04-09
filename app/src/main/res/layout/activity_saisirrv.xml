@@ -88,6 +88,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/textarea_style"
+            android:inputType="text|textMultiLine"
             android:id="@+id/edBilan"/>
 
         <TextView
@@ -106,7 +107,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:id="@+id/lvConf"/>
-
 
 
         <LinearLayout

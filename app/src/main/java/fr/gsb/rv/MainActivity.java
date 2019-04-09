@@ -81,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
+
     public void annuler(View view){
         EditText edLogin = (EditText) findViewById(R.id.matricul);
         EditText edMdp = (EditText) findViewById(R.id.pass);

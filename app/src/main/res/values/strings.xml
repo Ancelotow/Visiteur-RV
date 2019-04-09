@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">RV-Visiteur</string>
     <string name="matricul">Matricule : </string>
-    <string name="pass">Mot de pasee : </string>
+    <string name="pass">Mot de passe : </string>
     <string name="valid">Valider</string>
     <string name="cancel">Annuler</string>
 
