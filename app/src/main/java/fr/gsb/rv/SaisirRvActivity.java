@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,6 +38,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.gsb.rv.entites.Medicament;
 import fr.gsb.rv.entites.Motif;
 import fr.gsb.rv.entites.Praticien;
 import fr.gsb.rv.entites.Visiteur;
@@ -46,11 +48,13 @@ import fr.gsb.rv.technique.Session;
 public class SaisirRvActivity extends AppCompatActivity{
 
     protected List<Praticien> praticiens = new ArrayList<Praticien>() ;
-    Spinner lvPraticiens ;
+    Spinner spPraticiens ;
     protected List<Motif> motifs = new ArrayList<Motif>() ;
-    Spinner lvMotif ;
+    Spinner spMotif ;
     protected List<Integer> coefs = new ArrayList<Integer>();
-    Spinner lvCoef;
+    Spinner spCoef;
+    protected List<Medicament> medicaments = new ArrayList<Medicament>();
+    ListView lvMed;
     Button btnRetour;
     Button btnCancel;
     Button btnDate;
@@ -63,9 +67,9 @@ public class SaisirRvActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saisirrv);
-        lvPraticiens = (Spinner) findViewById( R.id.lvPraticiens) ;
-        lvMotif = (Spinner) findViewById( R.id.lvMotifs) ;
-        lvCoef = (Spinner) findViewById( R.id.lvConf) ;
+        spPraticiens = (Spinner) findViewById( R.id.lvPraticiens) ;
+        spMotif = (Spinner) findViewById( R.id.lvMotifs) ;
+        spCoef = (Spinner) findViewById( R.id.lvConf) ;
         tvDate = (TextView) findViewById(R.id.tvDate);
         btnRetour = (Button) findViewById(R.id.btnRetour);
         btnCancel = (Button) findViewById(R.id.btnCancel);
@@ -132,11 +136,17 @@ public class SaisirRvActivity extends AppCompatActivity{
         btnValid.setOnClickListener(ajouter);
         showPraticiens();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         showMotifs();
+        /*try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        showMed();*/
         int coef = 1;
         while(coef <= 5){
             coefs.add(coef);
@@ -144,18 +154,18 @@ public class SaisirRvActivity extends AppCompatActivity{
         }
         ArrayAdapter<Integer> aaCoef = new ArrayAdapter<Integer>(this,
                                     android.R.layout.simple_spinner_item, coefs );
-        lvCoef.setAdapter(aaCoef);
+        spCoef.setAdapter(aaCoef);
     }
 
     protected void addRv(){
-        Praticien praticien = (Praticien) lvPraticiens.getSelectedItem();
-        Motif motif = (Motif) lvMotif.getSelectedItem();
+        Praticien praticien = (Praticien) spPraticiens.getSelectedItem();
+        Motif motif = (Motif) spMotif.getSelectedItem();
         String vis_matricule = Session.getSession().getLeVisiteur().getMatricule();
         String rv_date_visite = tvDate.getText().toString();
         int pra_num = praticien.getNum();
         int mo_code = motif.getCode();
         String rv_bilan = edBilan.getText().toString();
-        int rv_confiance = (int) lvCoef.getSelectedItem();
+        int rv_confiance = (int) spCoef.getSelectedItem();
         JSONObject json = new JSONObject();
         try {
             json.put("matricule", vis_matricule);
@@ -168,6 +178,59 @@ public class SaisirRvActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         String url = ModeleGsb.URL+"rapports"; //URL HTTP
+        Response.Listener<JSONObject> ecouteurReponse = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                String url = "";
+                Log.i("RV","Rép HTTP") ;
+                Log.i("RV","Rép HTTP : " + response.length()) ;
+                try {
+                    url = response.getString("Location");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("////////////// "+ url);
+                addMed(url);
+                Toast.makeText(SaisirRvActivity.this,
+                        "Rapport de visite enregistrer avec succès", Toast.LENGTH_LONG).show();
+            }
+        }; //Reponse Listener
+        Response.ErrorListener ecouteurErreur = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SaisirRvActivity.this,
+                        "Une erreur est survenu lors de l'enregistrement du rapport de visite",
+                        Toast.LENGTH_LONG).show();
+                Log.e("APP-RV", "Erreur HTTP : "+ error.getMessage());
+            }
+        }; //Error Listener
+        JsonObjectRequest requete = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                json,
+                ecouteurReponse,
+                ecouteurErreur
+        );
+        RequestQueue fileRequetes = Volley.newRequestQueue(this);
+        fileRequetes.add(requete);
+    }
+
+
+    protected void addMed(String ext){
+        JSONObject json = new JSONObject();
+        for(int i=0; i < lvMed.getCount(); i++){
+            EditText edQuantite = (EditText) lvMed.findViewById(R.id.edQuantite);
+            int quantite = Integer.valueOf(edQuantite.getText().toString());
+            if(quantite != 0){
+                Medicament unMed = (Medicament) lvMed.getAdapter().getItem(i);
+                try {
+                    json.put(unMed.getDepotLegal(), quantite);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        String url = ModeleGsb.URL+ext; //URL HTTP
         Response.Listener<JSONObject> ecouteurReponse = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -215,7 +278,7 @@ public class SaisirRvActivity extends AppCompatActivity{
                         System.out.println(praticiens.size());
                         ItemPraticienAdaptateur item = new ItemPraticienAdaptateur();
                         Log.i("RV","Rép HTTP - item " + item) ;
-                        lvPraticiens.setAdapter(item);
+                        spPraticiens.setAdapter(item);
                     } catch (JSONException e) {
                         Log.e("APP-RV", "Erreur JSON : "+ e.getMessage());
                     }
@@ -278,7 +341,7 @@ public class SaisirRvActivity extends AppCompatActivity{
                     System.out.println(motifs.size());
                     ItemMotifAdaptateur itemMotif = new ItemMotifAdaptateur();
                     Log.i("RV","Rép HTTP - item " + itemMotif) ;
-                    lvMotif.setAdapter(itemMotif);
+                    spMotif.setAdapter(itemMotif);
                 } catch (JSONException e) {
                     Log.e("APP-RV", "Erreur JSON : "+ e.getMessage());
                 }
@@ -322,6 +385,78 @@ public class SaisirRvActivity extends AppCompatActivity{
         }
 
     }
+
+
+    /*protected void showMed(){
+        String url = ModeleGsb.URL+"medicaments"; //URL HTTP
+        Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.i("RV","Rép HTTP") ;
+                Log.i("RV","Rép HTTP : " + response.length()) ;
+                try{
+                    for(int i=0 ; i < response.length() ; i++){
+                        Medicament med = new Medicament();
+                        med.setDepotLegal(response.getJSONObject(i).getString("med_depotlegal"));
+                        med.setNom(response.getJSONObject(i).getString("med_nomcommercial"));
+                        SaisirRvActivity.this.medicaments.add(med);
+                    }
+                    ItemMedAdaptateur itemMed = new ItemMedAdaptateur();
+                    Log.i("RV","Rép HTTP - item " + itemMed) ;
+                    lvMed.setAdapter(itemMed);
+                } catch (JSONException e) {
+                    Log.e("APP-RV", "Erreur JSON : "+ e.getMessage());
+                }
+            }
+        }; //Reponse Listener
+        Response.ErrorListener ecouteurErreur = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("APP-RV", "Erreur HTTP : "+ error.getMessage());
+            }
+        }; //Error Listener
+        JsonArrayRequest requete = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                ecouteurReponse,
+                ecouteurErreur
+        );
+        RequestQueue fileRequetes = Volley.newRequestQueue(this);
+        fileRequetes.add(requete);
+    }
+
+
+    class ItemMedAdaptateur extends ArrayAdapter<Medicament>{
+
+        ItemMedAdaptateur(){
+            super(
+                    SaisirRvActivity.this,
+                    R.layout.item_medicament,
+                    R.id.med,
+                    medicaments
+            );
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            View vItem = super.getView(position, convertView, parent);
+            TextView tvMed = (TextView) vItem.findViewById(R.id.med);
+            tvMed.setText(medicaments.get(position).getNom());
+            return vItem;
+        }
+
+        @Override
+        public int getCount() {
+            return medicaments.size();
+        }
+
+        @Override
+        public Medicament getItem(int position) {
+            return medicaments.get(position);
+        }
+
+    }*/
 
 }
 

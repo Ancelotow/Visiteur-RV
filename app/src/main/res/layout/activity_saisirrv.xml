@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -23,132 +25,130 @@
                 android:textSize="15dp" />
 
             <TextView
+                android:id="@+id/tvDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
                 android:layout_marginRight="20dp"
-                android:id="@+id/tvDate"/>
+                android:textSize="15dp" />
 
         </LinearLayout>
 
         <Button
+            android:id="@+id/btnDate"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="Modifier date"
-            android:id="@+id/btnDate"/>
+            android:text="Modifier date" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:text="@string/praticien"
             android:textColor="@color/dark"
             android:textSize="15dp" />
 
         <Spinner
+            android:id="@+id/lvPraticiens"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/lvPraticiens"/>
+            android:layout_marginRight="20dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:text="@string/motif"
             android:textColor="@color/dark"
             android:textSize="15dp" />
 
         <Spinner
+            android:id="@+id/lvMotifs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/lvMotifs"/>
+            android:layout_marginRight="20dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:text="Bilan :"
             android:textColor="@color/dark"
             android:textSize="15dp" />
 
         <EditText
+            android:id="@+id/edBilan"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/textarea_style"
-            android:inputType="text|textMultiLine"
-            android:id="@+id/edBilan"/>
+            android:inputType="text|textMultiLine" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:text="Coefficient de confiance :"
             android:textColor="@color/dark"
             android:textSize="15dp" />
 
         <Spinner
+            android:id="@+id/lvConf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/lvConf"/>
+            android:layout_marginRight="20dp" />
 
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
             android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btnValid"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:background="@color/success"
-                android:text="@string/valid"
                 android:layout_gravity="bottom"
-                android:id="@+id/btnValid"/>
+                android:background="@color/success"
+                android:text="@string/valid" />
 
             <Button
+                android:id="@+id/btnCancel"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
                 android:background="@color/danger"
                 android:text="@string/cancel"
-                android:textColor="@color/light"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="bottom"
-                android:id="@+id/btnCancel"/>
+                android:textColor="@color/light" />
 
             <Button
                 android:id="@+id/btnRetour"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:background="@color/retour"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:background="@color/retour"
                 android:text="@string/retour" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-
 
 </android.support.constraint.ConstraintLayout>
